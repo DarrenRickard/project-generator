@@ -17,14 +17,39 @@ parser = argparse.ArgumentParser(
 parser.add_argument('--test', action='store_true', help='Run in test mode')
 args = parser.parse_args()
 
+# Load project configuration from JSON file
+def load_config():
+    # get the path to config.json
+    return
+
+# Run tests
+def run_tests():
+    print("Running tests...")
+    # Add test code here
+    return True
+
+# Run normal code
+def run_normal():
+    print("Running normal code...")
+    # Add normal code here
+    return True
+
 # Define Main function
 def main():
     if args.test:
         print("Running in test mode...")
         # Add test code 
+        if run_tests():
+            print("Tests passed successfully!")
+        else:
+            print("Tests failed.")
     else:
         print("Running in normal mode...")
         # Add normal code 
+        if run_normal():
+            print("Normal code executed successfully!")
+        else:
+            print("Normal code execution failed.")
 
 # Run Main function
 if __name__ == '__main__':
