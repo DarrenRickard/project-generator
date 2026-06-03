@@ -17,6 +17,43 @@ parser = argparse.ArgumentParser(
 parser.add_argument('--test', action='store_true', help='Run in test mode')
 args = parser.parse_args()
 
+# Test folder structure
+try:
+    project_name = input("Enter the project name: ")
+    Path(project_name).mkdir(exist_ok=False) # Throws FileExistsError if the directory already exists
+    project_root = Path(project_name)
+except FileExistsError:
+    print(f"Directory '{project_name}' already exists. Please choose a different project name or remove it before running the script.")
+    exit(1)
+
+# Temporary folder structure for testing. Implement JSON config file later.
+folder_structure = {
+    "src": {
+        "core": {},
+        "utils": {},
+        "models": {}
+    },
+    "tests": {
+        "unit": {},
+        "integration": {}
+    },
+    "docs": {},
+    "config": {},
+    "data": {
+        "input": {},
+        "output": {}
+    }
+}
+
+
+# Create project folders
+def create_folders(base_path: Path, structure: dict):
+    for folder_name, subfolders in structure.items():
+        folder_path = base_path / folder_name
+        folder_path.mkdir(exist_ok=True)
+
+        create_folders(folder_path, subfolders)
+
 # Load project configuration from JSON file
 def load_config():
     # get the path to config.json
@@ -26,6 +63,13 @@ def load_config():
 def run_tests():
     print("Running tests...")
     # Add test code here
+    try:
+        create_folders(project_root, folder_structure)
+        print(f"Created folder structure in {project_root}")
+    except Exception as e:
+        print(f"Error creating folder structure: {e}")
+        return False
+
     return True
 
 # Run normal code
