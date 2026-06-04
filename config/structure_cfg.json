@@ -1,0 +1,15 @@
+{
+    "python_cli": {
+        "src": {
+            "core": {},
+            "utils": {}
+        },
+        "tests": {},
+        "docs": {}
+    },
+    "web_app": {
+        "frontend": {},
+        "backend": {},
+        "database": {}
+    }
+}
