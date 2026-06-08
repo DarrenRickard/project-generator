@@ -21,14 +21,14 @@ parser.add_argument('--json', action='store_true', help='Check the loaded JSON c
 args = parser.parse_args()
 
 def create_project_root():
-    try:
-        project_name = input("Enter the project name: ")
-        Path(project_name).mkdir(exist_ok=False) # Throws FileExistsError if the directory already exists
-        project_root = Path(project_name)
-        return project_name, project_root
-    except FileExistsError:
-        print(f"Directory '{project_name}' already exists. Please choose a different project name or remove it before running the script.")
-        exit(1)
+    while True:
+        try:
+            project_name = input("Enter the project name: ")
+            Path(project_name).mkdir(exist_ok=False) # Throws FileExistsError if the directory already exists
+            project_root = Path(project_name)
+            return project_name, project_root
+        except FileExistsError:
+            print(f"Directory '{project_name}' already exists. Please choose a different project name or remove it before running the script.")
 
 # Load folder structure from JSON config file
 def load_folder_structure(): 
