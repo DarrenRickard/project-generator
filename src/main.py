@@ -5,6 +5,8 @@ from pathlib import Path
 # from rich.console import Console
 import argparse
 import json
+import shutil
+import sys
 
 folder_structure_path = Path('config/structure_cfg.json')
 
@@ -29,6 +31,9 @@ def create_project_root():
             return project_name, project_root
         except FileExistsError:
             print(f"Directory '{project_name}' already exists. Please choose a different project name or remove it before running the script.")
+        except KeyboardInterrupt:
+            print("\nProject creation cancelled by user.")
+            sys.exit(1)
 
 # Load folder structure from JSON config file
 def load_folder_structure(): 
@@ -58,16 +63,22 @@ def check_json():
 # Run normal code
 def run_normal():
     project_name, project_root = create_project_root()
-    while True:
-        selected_structure = input(f"Select a folder structure from the following options: {list(folder_structures.keys())}: ")
-        try:
-            print(f"Creating folder structure for project: '{project_name}'...")
-            create_folders(project_root, folder_structures[selected_structure])
-            print(f"Created folder structure in {project_root}")
-            return True
-        except Exception as e:
-            print(f"Error creating folder structure: {e}")
-            # Path(project_name).rmdir() # Clean up by removing the created project directory
+    try:
+        while True:
+            selected_structure = input(f"Select a folder structure from the following options: {list(folder_structures.keys())}: ")
+            try:
+                print(f"Creating folder structure for project: '{project_name}'...")
+                create_folders(project_root, folder_structures[selected_structure])
+                print(f"Created folder structure in {project_root}")
+                return True
+            except Exception as e:
+                print(f"Error creating folder structure: {e}")
+                # Path(project_name).rmdir() # Clean up by removing the created project directory
+    except KeyboardInterrupt:
+        print("\nProject creation cancelled by user.\nCleaning up...")
+        if project_root.exists():
+            shutil.rmtree(project_root) # Clean up by removing the created project directory
+        sys.exit(1)
 
 
 # Define Main function
