@@ -20,7 +20,7 @@ parser.add_argument('--test', action='store_true', help='Run in test mode')
 parser.add_argument('--json', action='store_true', help='Check the loaded JSON configuration file')
 args = parser.parse_args()
 
-def get_project_name():
+def create_project_root():
     try:
         project_name = input("Enter the project name: ")
         Path(project_name).mkdir(exist_ok=False) # Throws FileExistsError if the directory already exists
@@ -57,8 +57,7 @@ def check_json():
 
 # Run normal code
 def run_normal():
-    print("Running normal code...")
-    project_name, project_root = get_project_name()
+    project_name, project_root = create_project_root()
     selected_structure = input(f"Select a folder structure from the following options: {list(folder_structures.keys())}: ")
     # Add test code here
     try:
@@ -67,6 +66,7 @@ def run_normal():
         print(f"Created folder structure in {project_root}")
     except Exception as e:
         print(f"Error creating folder structure: {e}")
+        Path(project_name).rmdir() # Clean up by removing the created project directory
         return False
 
     return True
