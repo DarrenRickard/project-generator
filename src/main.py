@@ -58,18 +58,17 @@ def check_json():
 # Run normal code
 def run_normal():
     project_name, project_root = create_project_root()
-    selected_structure = input(f"Select a folder structure from the following options: {list(folder_structures.keys())}: ")
-    # Add test code here
-    try:
-        print(f"Creating folder structure for project: '{project_name}'...")
-        create_folders(project_root, folder_structures[selected_structure])
-        print(f"Created folder structure in {project_root}")
-    except Exception as e:
-        print(f"Error creating folder structure: {e}")
-        Path(project_name).rmdir() # Clean up by removing the created project directory
-        return False
+    while True:
+        selected_structure = input(f"Select a folder structure from the following options: {list(folder_structures.keys())}: ")
+        try:
+            print(f"Creating folder structure for project: '{project_name}'...")
+            create_folders(project_root, folder_structures[selected_structure])
+            print(f"Created folder structure in {project_root}")
+            return True
+        except Exception as e:
+            print(f"Error creating folder structure: {e}")
+            # Path(project_name).rmdir() # Clean up by removing the created project directory
 
-    return True
 
 # Define Main function
 def main():
